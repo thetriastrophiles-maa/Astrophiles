@@ -130,107 +130,23 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchNews();
     }
 
-    // Astronomical Calendar
-    const calendarGrid = document.getElementById('calendar-grid');
-    const monthYearDisplay = document.getElementById('month-year-display');
-    const prevMonthBtn = document.getElementById('prev-month');
-    const nextMonthBtn = document.getElementById('next-month');
-    let currentDate = new Date(); // Start with the current month
-
-    // Curated list of astronomical events for December 2025
-    const astronomicalEvents = [
-        { date: '2025-12-04', name: 'Super Cold Moon (Full Moon)', type: 'moon' },
-        { date: '2025-12-13', name: 'Geminid Meteor Shower Peak', type: 'meteor_shower' },
-        { date: '2025-12-14', name: 'Geminid Meteor Shower (continuation)', type: 'meteor_shower' },
-        { date: '2025-12-21', name: 'December Solstice', type: 'solstice' },
-        { date: '2025-12-22', name: 'Ursid Meteor Shower Peak', type: 'meteor_shower' },
-        { date: '2025-12-23', name: 'Ursid Meteor Shower (continuation)', type: 'meteor_shower' },
-        { date: '2025-12-27', name: 'Moon-Saturn Conjunction', type: 'conjunction' },
-    ];
-
-    function renderCalendar() {
-        if (!calendarGrid || !monthYearDisplay) return;
-
-        calendarGrid.innerHTML = ''; // Clear previous days
-        // const eventsList = document.getElementById('current-month-events'); // Removed
-        // if (eventsList) eventsList.innerHTML = ''; // Clear previous events (removed)
-
+    // Today's Moon Phase
+    const todayMoonPhaseContainer = document.getElementById('today-moon-phase');
+    if (todayMoonPhaseContainer) {
         const today = new Date();
-        const currentMonth = currentDate.getMonth();
-        const currentYear = currentDate.getFullYear();
-
-        monthYearDisplay.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentYear}`;
-
-        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-        const numDaysInMonth = lastDayOfMonth.getDate();
-        const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
-
-        // Add empty cells for days before the 1st of the month
-        for (let i = 0; i < firstDayOfWeek; i++) {
-            const emptyDay = document.createElement('div');
-            emptyDay.className = 'calendar-day empty';
-            calendarGrid.appendChild(emptyDay);
-        }
-
-        // Add days of the month
-        for (let day = 1; day <= numDaysInMonth; day++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day';
-            dayElement.setAttribute('data-day', day);
-
-            const date = new Date(currentYear, currentMonth, day);
-
-            // Highlight today's date
-            if (date.getDate() === today.getDate() &&
-                date.getMonth() === today.getMonth() &&
-                date.getFullYear() === today.getFullYear()) {
-                dayElement.classList.add('current-day');
-            }
-
-            // Add moon phase
-            const moonPhase = getMoonPhase(date);
-            const moonPhaseContainer = document.createElement('div');
-            moonPhaseContainer.className = 'moon-phase';
-            moonPhaseContainer.innerHTML = `
-                <img src="${moonPhase.imagePath}" class="moon-image">
-                <span class="moon-percentage">${moonPhase.percentage}%</span>
-            `;
-            dayElement.appendChild(moonPhaseContainer);
-
-            // Add astronomical events
-            const dayEvents = astronomicalEvents.filter(event => {
-                const eventDate = new Date(event.date);
-                return eventDate.getDate() === day &&
-                       eventDate.getMonth() === currentMonth &&
-                       eventDate.getFullYear() === currentYear;
-            });
-
-            if (dayEvents.length > 0) {
-                dayElement.classList.add('event-day');
-                dayEvents.forEach(event => {
-                    const eventDetails = document.createElement('div');
-                    eventDetails.className = 'event-details';
-                    eventDetails.textContent = event.name;
-                    dayElement.appendChild(eventDetails);
-                });
-            }
-
-            calendarGrid.appendChild(dayElement);
-        }
+        const moonPhase = getMoonPhase(today);
+        
+        const moonPhaseCard = document.createElement('div');
+        moonPhaseCard.className = 'moon-phase-card';
+        moonPhaseCard.innerHTML = `
+            <div class="moon-phase-image-container">
+                <img src="${moonPhase.imagePath}" alt="Today's Moon Phase" class="moon-phase-image">
+            </div>
+            <div class="moon-phase-info">
+                <h3>${today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+                <p class="moon-illumination">Illumination: ${moonPhase.percentage}%</p>
+            </div>
+        `;
+        todayMoonPhaseContainer.appendChild(moonPhaseCard);
     }
-
-    // Navigation buttons
-    prevMonthBtn.addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-    });
-
-    nextMonthBtn.addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-    });
-
-    // Initial render
-    renderCalendar();
 });
