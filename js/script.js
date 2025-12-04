@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const moonPhaseContainer = document.createElement('div');
             moonPhaseContainer.className = 'moon-phase';
             moonPhaseContainer.innerHTML = `
-                <img src="${moonPhase.imagePath}" alt="${moonPhase.name}" class="moon-image">
+                <img src="${moonPhase.imagePath}" alt="Moon Phase" class="moon-image">
                 <span class="moon-percentage">${moonPhase.percentage}%</span>
             `;
             dayElement.appendChild(moonPhaseContainer);
