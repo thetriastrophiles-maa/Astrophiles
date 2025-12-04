@@ -366,3 +366,16 @@
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+
+.about-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #cbd5e1;
+}
