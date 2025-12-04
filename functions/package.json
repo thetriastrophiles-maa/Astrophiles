@@ -1,0 +1,9 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for Astrophile website",
+  "main": "news-fetcher.js",
+  "dependencies": {
+    "rss-parser": "^3.13.0"
+  }
+}

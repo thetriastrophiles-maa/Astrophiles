@@ -42,4 +42,47 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Fetch and display news
+    const newsGrid = document.getElementById('news-grid');
+    if (newsGrid) {
+        const NEWS_API_ENDPOINT = '/.netlify/functions/news-fetcher'; // Relative path to your Netlify function
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(NEWS_API_ENDPOINT);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const news = await response.json();
+
+                newsGrid.innerHTML = ''; // Clear loading message
+
+                if (news.length === 0) {
+                    newsGrid.innerHTML = '<p class="no-news-message">No news available at the moment. Please check back later!</p>';
+                    return;
+                }
+
+                news.slice(0, 9).forEach(item => { // Limit to 9 news items
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'news-card';
+                    newsCard.innerHTML = `
+                        <div class="news-meta">
+                            <span class="news-source">${item.source}</span>
+                            <span class="news-date">${new Date(item.pubDate).toLocaleDateString()}</span>
+                        </div>
+                        <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h3>
+                        <p>${item.contentSnippet}</p>
+                    `;
+                    newsGrid.appendChild(newsCard);
+                });
+
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                newsGrid.innerHTML = '<p class="error-message">Failed to load news. Please try again later.</p>';
+            }
+        }
+
+        fetchNews();
+    }
 });
