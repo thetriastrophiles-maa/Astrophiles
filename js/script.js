@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let lp = 2551443; // New moon in milliseconds for 2000 January 6
         let new_moon_date = new Date(2000, 0, 6, 18, 38, 0);
-        let phase_length = 29.53058867;
+        let phase_length = 29.53058867; // Synodic month length
 
         let days_since_new_moon = (date.getTime() - new_moon_date.getTime()) / 86400000;
         let current_phase_days = days_since_new_moon % phase_length;
@@ -17,16 +17,45 @@ document.addEventListener('DOMContentLoaded', () => {
             current_phase_days += phase_length;
         }
 
-        // Define phases based on days since new moon
-        if (current_phase_days < 1.84566) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2d3748"/></svg>'; // New Moon
-        if (current_phase_days < 5.53699) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 010 20c-5.523 0-10-4.477-10-10S6.477 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waxing Crescent (simplified)
-        if (current_phase_days < 9.22831) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><rect x="12" y="2" width="10" height="20" fill="#2d3748"/></svg>'; // First Quarter
-        if (current_phase_days < 12.91963) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 000 20c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waxing Gibbous (simplified)
-        if (current_phase_days < 16.61096) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/></svg>'; // Full Moon
-        if (current_phase_days < 20.30228) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 010 20c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waning Gibbous (simplified)
-        if (current_phase_days < 23.99361) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><rect x="2" y="2" width="10" height="20" fill="#2d3748"/></svg>'; // Last Quarter
-        if (current_phase_days < 27.68493) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 000 20c-5.523 0-10-4.477-10-10S6.477 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waning Crescent (simplified)
-        return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2d3748"/></svg>'; // Cycle back to New Moon
+        const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * current_phase_days / phase_length))) * 100); // Calculate illumination percentage
+
+        let phaseName;
+        let imageFileName;
+
+        if (current_phase_days < 1.84566) {
+            phaseName = "New Moon";
+            imageFileName = "new_moon.png";
+        } else if (current_phase_days < 5.53699) {
+            phaseName = "Waxing Crescent";
+            imageFileName = "waxing_crescent.png";
+        } else if (current_phase_days < 9.22831) {
+            phaseName = "First Quarter";
+            imageFileName = "first_quarter.png";
+        } else if (current_phase_days < 12.91963) {
+            phaseName = "Waxing Gibbous";
+            imageFileName = "waxing_gibbous.png";
+        } else if (current_phase_days < 16.61096) {
+            phaseName = "Full Moon";
+            imageFileName = "full_moon.png";
+        } else if (current_phase_days < 20.30228) {
+            phaseName = "Waning Gibbous";
+            imageFileName = "waning_gibbous.png";
+        } else if (current_phase_days < 23.99361) {
+            phaseName = "Last Quarter";
+            imageFileName = "last_quarter.png";
+        } else if (current_phase_days < 27.68493) {
+            phaseName = "Waning Crescent";
+            imageFileName = "waning_crescent.png";
+        } else {
+            phaseName = "New Moon"; // Cycle back to New Moon
+            imageFileName = "new_moon.png";
+        }
+
+        return {
+            name: phaseName,
+            imagePath: `images/moon_phases/${imageFileName}`,
+            percentage: illumination
+        };
     }
 
     const menuToggle = document.getElementById('menu-toggle');
@@ -177,10 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add moon phase
             const moonPhase = getMoonPhase(date);
-            const moonPhaseElement = document.createElement('div');
-            moonPhaseElement.className = 'moon-phase';
-            moonPhaseElement.innerHTML = moonPhase; // Set innerHTML to the SVG string
-            dayElement.appendChild(moonPhaseElement);
+            const moonPhaseContainer = document.createElement('div');
+            moonPhaseContainer.className = 'moon-phase';
+            moonPhaseContainer.innerHTML = `
+                <img src="${moonPhase.imagePath}" alt="${moonPhase.name}" class="moon-image">
+                <span class="moon-percentage">${moonPhase.percentage}%</span>
+            `;
+            dayElement.appendChild(moonPhaseContainer);
 
             // Add astronomical events
             const dayEvents = astronomicalEvents.filter(event => {
