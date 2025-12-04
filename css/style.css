@@ -90,8 +90,8 @@
         }
 
         .logo-img {
-            max-height: 40px; /* Adjust as needed */
-            width: auto;
+            max-height: 60px; /* Adjusted for larger logo */
+            height: auto;
             vertical-align: middle;
         }
 
