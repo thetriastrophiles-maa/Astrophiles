@@ -4,346 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astrophile - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #ec4899;
-            --dark: #0f172a;
-            --darker: #020617;
-            --light: #f1f5f9;
-            --text: #1e293b;
-            --text-light: #64748b;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text);
-            background: var(--darker);
-            overflow-x: hidden;
-        }
-
-        /* Animated background */
-        .space-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, #020617, #0f172a, #1e293b);
-            z-index: -1;
-        }
-
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Header */
-        header {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s;
-        }
-
-        nav a:hover::after,
-        nav a.current::after {
-            width: 100%;
-        }
-
-        nav a:hover,
-        nav a.current {
-            color: white;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .hamburger {
-            width: 25px;
-            height: 2px;
-            background: white;
-            display: block;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .hamburger::before,
-        .hamburger::after {
-            content: '';
-            width: 25px;
-            height: 2px;
-            background: white;
-            position: absolute;
-            transition: 0.3s;
-        }
-
-        .hamburger::before { top: -8px; }
-        .hamburger::after { top: 8px; }
-
-        /* Hero Section */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            padding: 2rem;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: #94a3b8;
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 2rem;
-            background: rgba(15, 23, 42, 0.5);
-        }
-
-        .features h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            text-align: center;
-            color: white;
-            margin-bottom: 3rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(2, 6, 23, 0.8);
-            border-top: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 2rem;
-            text-align: center;
-            color: #64748b;
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            nav {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background: rgba(15, 23, 42, 0.98);
-                backdrop-filter: blur(10px);
-                transition: 0.3s;
-                padding: 5rem 2rem;
-            }
-
-            nav.active {
-                right: 0;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="space-bg"></div>
@@ -351,17 +13,17 @@
 
     <header>
         <div class="container">
-            <a href="#" class="logo">Astrophile</a>
+            <a href="home.html" class="logo">Astrophile</a>
             <button class="menu-toggle" id="menu-toggle">
                 <span class="hamburger"></span>
             </button>
             <nav id="main-nav">
                 <ul>
-                    <li><a href="#" class="current">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#blog">Blog</a></li>
-                    <li><a href="#newsletter">Newsletter</a></li>
+                    <li><a href="home.html" class="current">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="education.html">Education</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="newsletter.html">Newsletter</a></li>
                 </ul>
             </nav>
         </div>
@@ -373,8 +35,8 @@
                 <h1>Explore the Wonders of the Universe</h1>
                 <p>Join us on an incredible journey through space and time. Discover the mysteries of distant galaxies, stellar phenomena, and the cosmic dance of celestial bodies.</p>
                 <div class="cta-buttons">
-                    <a href="#blog" class="btn btn-primary">Read Latest Articles</a>
-                    <a href="#newsletter" class="btn btn-secondary">Subscribe Now</a>
+                    <a href="blog.html" class="btn btn-primary">Read Latest Articles</a>
+                    <a href="newsletter.html" class="btn btn-secondary">Subscribe Now</a>
                 </div>
             </div>
         </section>
@@ -414,25 +76,20 @@
         </div>
     </footer>
 
+    <script src="js/script.js"></script>
     <script>
-        // Generate stars
+        // Generate stars (if not already handled by script.js)
         const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
+        if (starsContainer) {
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
         }
-
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menu-toggle');
-        const mainNav = document.getElementById('main-nav');
-
-        menuToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-        });
     </script>
 </body>
 </html>
