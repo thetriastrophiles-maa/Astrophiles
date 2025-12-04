@@ -20,40 +20,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * current_phase_days / phase_length))) * 100); // Calculate illumination percentage
 
         let phaseName;
-        let imageFileName;
+        let imageURL;
+
+        // The following image URLs are based on the NASA SVS link provided by the user:
+        // https://svs.gsfc.nasa.gov/5415/#media_group_376350
 
         if (current_phase_days < 1.84566) {
             phaseName = "New Moon";
-            imageFileName = "new_moon.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_new.1933_print.jpg";
         } else if (current_phase_days < 5.53699) {
             phaseName = "Waxing Crescent";
-            imageFileName = "waxing_crescent.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waxing_crescent.2028_print.jpg";
         } else if (current_phase_days < 9.22831) {
             phaseName = "First Quarter";
-            imageFileName = "first_quarter.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_first_quarter.2091_print.jpg";
         } else if (current_phase_days < 12.91963) {
             phaseName = "Waxing Gibbous";
-            imageFileName = "waxing_gibbous.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waxing_gibbous.2158_print.jpg";
         } else if (current_phase_days < 16.61096) {
             phaseName = "Full Moon";
-            imageFileName = "full_moon.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_full.1571_print.jpg";
         } else if (current_phase_days < 20.30228) {
             phaseName = "Waning Gibbous";
-            imageFileName = "waning_gibbous.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waning_gibbous.2403_print.jpg";
         } else if (current_phase_days < 23.99361) {
             phaseName = "Last Quarter";
-            imageFileName = "last_quarter.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_third_quarter.1755_print.jpg";
         } else if (current_phase_days < 27.68493) {
             phaseName = "Waning Crescent";
-            imageFileName = "waning_crescent.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waning_crescent.1810_print.jpg";
         } else {
             phaseName = "New Moon"; // Cycle back to New Moon
-            imageFileName = "new_moon.png";
+            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_new.1933_print.jpg";
         }
 
         return {
             name: phaseName,
-            imagePath: `images/moon_phases/${imageFileName}`,
+            imagePath: imageURL,
             percentage: illumination
         };
     }
