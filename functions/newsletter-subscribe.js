@@ -1,5 +1,66 @@
 const nodemailer = require('nodemailer');
 
+// Helper function to store subscription in Google Sheets (optional)
+async function storeInGoogleSheets(name, email) {
+    // This requires GOOGLE_SHEETS_API_KEY and GOOGLE_SHEET_ID environment variables
+    // For now, we'll just log it - you can implement Google Sheets API integration if needed
+    const subscriptionData = {
+        name,
+        email,
+        subscribedAt: new Date().toISOString(),
+    };
+    
+    // Log subscription for now (you can view these in Netlify function logs)
+    console.log('New subscription:', JSON.stringify(subscriptionData));
+    
+    // If you want to use Google Sheets, uncomment and configure:
+    /*
+    if (process.env.GOOGLE_SHEETS_API_KEY && process.env.GOOGLE_SHEET_ID) {
+        // Implement Google Sheets API call here
+        // See: https://developers.google.com/sheets/api
+    }
+    */
+    
+    return subscriptionData;
+}
+
+// Helper function to send admin notification email
+async function sendAdminNotification(name, email, transporter, fromEmail) {
+    const adminEmail = process.env.ADMIN_EMAIL || fromEmail;
+    
+    if (!adminEmail) {
+        console.log('Admin email not configured, skipping notification');
+        return;
+    }
+
+    const adminMailOptions = {
+        from: `"Astrophiles Newsletter" <${fromEmail}>`,
+        to: adminEmail,
+        subject: `New Newsletter Subscription: ${name}`,
+        html: `
+            <h2>New Newsletter Subscription</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subscribed at:</strong> ${new Date().toLocaleString()}</p>
+        `,
+        text: `
+            New Newsletter Subscription
+            
+            Name: ${name}
+            Email: ${email}
+            Subscribed at: ${new Date().toLocaleString()}
+        `,
+    };
+
+    try {
+        await transporter.sendMail(adminMailOptions);
+        console.log('Admin notification sent');
+    } catch (error) {
+        console.error('Failed to send admin notification:', error);
+        // Don't fail the subscription if admin email fails
+    }
+}
+
 exports.handler = async function(event, context) {
     // Only allow POST requests
     if (event.httpMethod !== 'POST') {
@@ -86,8 +147,16 @@ exports.handler = async function(event, context) {
             };
         }
 
+        // Store subscription data
+        await storeInGoogleSheets(name, email);
+
         // Create transporter
         const transporter = nodemailer.createTransport(smtpConfig);
+
+        // Send admin notification email (if configured)
+        if (smtpConfig.auth.user && smtpConfig.auth.pass) {
+            await sendAdminNotification(name, email, transporter, fromEmail);
+        }
 
         // Email content
         const mailOptions = {
