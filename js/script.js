@@ -15,10 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Frame numbers start at 1, so add 1 to the hours since year start
         const frameNumber = hoursSinceYearStart + 1;
+        const formattedFrameNumber = String(frameNumber).padStart(4, '0');
 
-        // Base URL for NASA SVS phase images (print resolution)
-        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/";
-        const imageURL = `${imageBaseURL}phase_full.${frameNumber}_print.jpg`;
+        // Base URL for NASA SVS hourly moon images (730x730 resolution)
+        // Using the su_image path (a005416) which seems more reliable
+        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005416/frames/730x730_1x1_30p/";
+        const imageURL = `${imageBaseURL}moon.${formattedFrameNumber}.jpg`;
 
         // Re-calculate illumination based on the midday date for consistency with image
         let new_moon_date_utc = new Date(Date.UTC(2000, 0, 6, 18, 38, 0)); // Reference new moon (UTC)
@@ -175,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let day = 1; day <= numDaysInMonth; day++) {
             const dayElement = document.createElement('div');
             dayElement.className = 'calendar-day';
-            dayElement.textContent = day;
+            dayElement.setAttribute('data-day', day);
 
             const date = new Date(currentYear, currentMonth, day);
 

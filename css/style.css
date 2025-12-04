@@ -535,19 +535,35 @@
     background: rgba(30, 41, 59, 0.4);
     border: 1px solid rgba(99, 102, 241, 0.1);
     border-radius: 8px;
-    padding: 1rem 0.5rem;
-    text-align: right;
+    padding: 0.3rem;
     min-height: 100px;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-end;
     font-size: 1.1rem;
+    overflow: hidden;
+}
+
+.calendar-day::before {
+    content: attr(data-day);
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    z-index: 3;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .calendar-day.empty {
     background: transparent;
     border: none;
+}
+
+.calendar-day.empty::before {
+    content: none;
 }
 
 .calendar-day.current-day {
@@ -560,20 +576,44 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
 .moon-image {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: block; /* Ensure the image is treated as a block element */
-    margin-bottom: 0.2rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+    z-index: 0;
 }
 
 .moon-percentage {
     font-size: 0.9rem;
-    color: #94a3b8;
+    color: #cbd5e1;
+    position: absolute;
+    bottom: 0.3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: rgba(15, 23, 42, 0.8);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.calendar-day.event-day .moon-percentage {
+    bottom: 2.5rem; /* Move percentage up when event is present */
 }
 
 .event-day {
@@ -602,36 +642,114 @@
     color: #cbd5e1;
     text-align: center;
     text-align-last: center;
-    margin-top: 0.2rem; /* Add some space below the percentage */
     line-height: 1.2;
     padding: 0.2rem;
+    position: absolute;
+    bottom: 0.3rem;
+    left: 0.3rem;
+    right: 0.3rem;
+    z-index: 2;
+    background: rgba(99, 102, 241, 0.9);
+    border-radius: 4px;
+    width: calc(100% - 0.6rem);
 }
 
 /* Responsive adjustments for calendar */
 @media (max-width: 768px) {
+    .astronomy-calendar {
+        padding: 3rem 1rem;
+    }
+
+    .astronomy-calendar h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
     .calendar-header {
-        flex-direction: column;
+        flex-direction: row;
         gap: 1rem;
+        max-width: 100%;
+        padding: 0 1rem;
     }
 
     .calendar-header h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .calendar-header button {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
     }
 
     .calendar-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 5px;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        max-width: 100%;
+    }
+
+    .day-name {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.2rem;
     }
 
     .calendar-day {
-        min-height: 80px;
-        font-size: 0.9rem;
-        padding: 0.8rem 0.3rem;
+        min-height: 70px;
+        font-size: 0.85rem;
+        padding: 0.2rem;
     }
 
-    .moon-phase,
-    .event-marker {
+    .moon-percentage {
         font-size: 0.7rem;
-        margin-top: 0.3rem;
+        padding: 0.15rem 0.3rem;
+    }
+
+    .event-details {
+        font-size: 0.7rem;
+        padding: 0.15rem 0.2rem;
+        line-height: 1.1;
+    }
+}
+
+@media (max-width: 480px) {
+    .astronomy-calendar {
+        padding: 2rem 0.5rem;
+    }
+
+    .astronomy-calendar h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .calendar-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .calendar-header button {
+        font-size: 1rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .calendar-grid {
+        gap: 3px;
+    }
+
+    .day-name {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.1rem;
+    }
+
+    .calendar-day {
+        min-height: 60px;
+        font-size: 0.75rem;
+    }
+
+    .moon-percentage {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.2rem;
+    }
+
+    .event-details {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.15rem;
     }
 }
