@@ -16,8 +16,9 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--text);
-            background: var(--darker);
+            color: #cbd5e1; /* Set a default text color */
+            background: linear-gradient(to bottom, #020617, #0f172a);
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
@@ -357,4 +358,11 @@
             .hero p {
                 font-size: 1.1rem;
             }
+        }
+
+        .blog-content p,
+        .article-full p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
