@@ -469,16 +469,6 @@
     color: #ef4444; /* Red color for errors */
 }
 
-/* CTA Buttons at Bottom */
-.cta-buttons-bottom {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 4rem 2rem;
-    margin-top: -4rem; /* Adjust to pull it closer to the sections above */
-}
-
 /* Astronomical Calendar */
 .astronomy-calendar {
     padding: 6rem 2rem;
@@ -593,46 +583,6 @@
     cursor: help;
 }
 
-.events-list {
-    max-width: 1000px;
-    margin: 3rem auto 0 auto;
-    background: rgba(30, 41, 59, 0.6);
-    border-radius: 12px;
-    padding: 2rem;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-}
-
-.events-list h3 {
-    color: white;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.events-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.events-list li {
-    background: rgba(15, 23, 42, 0.5);
-    padding: 1rem 1.5rem;
-    margin-bottom: 0.8rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary);
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
-}
-
-.events-list li:hover {
-    border-left-color: var(--secondary);
-    transform: translateX(5px);
-}
-
 /* Responsive adjustments for calendar */
 @media (max-width: 768px) {
     .calendar-header {
@@ -659,18 +609,5 @@
     .event-marker {
         font-size: 0.7rem;
         margin-top: 0.3rem;
-    }
-
-    .events-list {
-        padding: 1rem;
-    }
-
-    .events-list h3 {
-        font-size: 1.5rem;
-    }
-
-    .events-list li {
-        font-size: 1rem;
-        padding: 0.8rem 1rem;
     }
 }

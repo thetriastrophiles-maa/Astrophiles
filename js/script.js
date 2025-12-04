@@ -18,15 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Define phases based on days since new moon
-        if (current_phase_days < 1.84566) return "🌑 New Moon";
-        if (current_phase_days < 5.53699) return "🌒 Waxing Crescent";
-        if (current_phase_days < 9.22831) return "🌓 First Quarter";
-        if (current_phase_days < 12.91963) return "🌔 Waxing Gibbous";
-        if (current_phase_days < 16.61096) return "🌕 Full Moon";
-        if (current_phase_days < 20.30228) return "🌖 Waning Gibbous";
-        if (current_phase_days < 23.99361) return "🌗 Last Quarter";
-        if (current_phase_days < 27.68493) return "🌘 Waning Crescent";
-        return "🌑 New Moon"; // Cycle back to New Moon
+        if (current_phase_days < 1.84566) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2d3748"/></svg>'; // New Moon
+        if (current_phase_days < 5.53699) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 010 20c-5.523 0-10-4.477-10-10S6.477 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waxing Crescent (simplified)
+        if (current_phase_days < 9.22831) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><rect x="12" y="2" width="10" height="20" fill="#2d3748"/></svg>'; // First Quarter
+        if (current_phase_days < 12.91963) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 000 20c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waxing Gibbous (simplified)
+        if (current_phase_days < 16.61096) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/></svg>'; // Full Moon
+        if (current_phase_days < 20.30228) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 010 20c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waning Gibbous (simplified)
+        if (current_phase_days < 23.99361) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><rect x="2" y="2" width="10" height="20" fill="#2d3748"/></svg>'; // Last Quarter
+        if (current_phase_days < 27.68493) return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#cbd5e1"/><path d="M12 2a10 10 0 000 20c-5.523 0-10-4.477-10-10S6.477 2 12 2zm0 0v20" fill="#2d3748"/></svg>'; // Waning Crescent (simplified)
+        return '<svg class="moon-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2d3748"/></svg>'; // Cycle back to New Moon
     }
 
     const menuToggle = document.getElementById('menu-toggle');
@@ -139,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!calendarGrid || !monthYearDisplay) return;
 
         calendarGrid.innerHTML = ''; // Clear previous days
-        const eventsList = document.getElementById('current-month-events');
-        if (eventsList) eventsList.innerHTML = ''; // Clear previous events
+        // const eventsList = document.getElementById('current-month-events'); // Removed
+        // if (eventsList) eventsList.innerHTML = ''; // Clear previous events (removed)
 
         const today = new Date();
         const currentMonth = currentDate.getMonth();
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const moonPhase = getMoonPhase(date);
             const moonPhaseElement = document.createElement('div');
             moonPhaseElement.className = 'moon-phase';
-            moonPhaseElement.textContent = moonPhase;
+            moonPhaseElement.innerHTML = moonPhase; // Set innerHTML to the SVG string
             dayElement.appendChild(moonPhaseElement);
 
             // Add astronomical events
@@ -193,16 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dayEvents.length > 0) {
                 dayElement.classList.add('event-day');
                 dayEvents.forEach(event => {
-                    const eventMarker = document.createElement('span');
-                    eventMarker.className = `event-marker ${event.type}`;
-                    eventMarker.title = event.name;
-                    dayElement.appendChild(eventMarker);
-
-                    if (eventsList) {
-                        const listItem = document.createElement('li');
-                        listItem.innerHTML = `<strong>${day} ${currentDate.toLocaleString('default', { month: 'short' })}:</strong> ${event.name}`;
-                        eventsList.appendChild(listItem);
-                    }
+                    const eventDetails = document.createElement('div');
+                    eventDetails.className = 'event-details';
+                    eventDetails.textContent = event.name;
+                    dayElement.appendChild(eventDetails);
                 });
             }
 
