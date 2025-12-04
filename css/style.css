@@ -561,9 +561,6 @@
     align-items: center;
     justify-content: center;
     margin-top: 0.5rem;
-    /* Debugging styles */
-    border: 1px solid red; /* Temporary: to see the container */
-    background-color: rgba(255, 0, 0, 0.1); /* Temporary: to see the container */
 }
 
 .moon-image {
@@ -572,9 +569,6 @@
     object-fit: contain;
     display: block; /* Ensure the image is treated as a block element */
     margin-bottom: 0.2rem;
-    /* Debugging styles */
-    border: 1px solid blue; /* Temporary: to see the image element */
-    background-color: rgba(0, 0, 255, 0.1); /* Temporary: to see the image element */
 }
 
 .moon-percentage {

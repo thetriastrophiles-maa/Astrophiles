@@ -1,61 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Helper function to calculate moon phase
+    // Helper function to calculate moon phase and its corresponding NASA SVS image URL
     function getMoonPhase(date) {
         const year = date.getFullYear();
-        const month = date.getMonth() + 1; // Month is 0-indexed
+        const month = date.getMonth(); // Month is 0-indexed
         const day = date.getDate();
 
-        let lp = 2551443; // New moon in milliseconds for 2000 January 6
-        let new_moon_date = new Date(2000, 0, 6, 18, 38, 0);
-        let phase_length = 29.53058867; // Synodic month length
+        // To get a representative moon phase for the day, we'll use noon (12:00 UTC)
+        const middayDate = new Date(Date.UTC(year, month, day, 12, 0, 0));
 
-        let days_since_new_moon = (date.getTime() - new_moon_date.getTime()) / 86400000;
-        let current_phase_days = days_since_new_moon % phase_length;
+        // Calculate hours since the beginning of the year for frame number calculation
+        const startOfYear = new Date(Date.UTC(year, 0, 1, 0, 0, 0));
+        const hoursSinceYearStart = Math.floor((middayDate.getTime() - startOfYear.getTime()) / (1000 * 60 * 60));
 
-        if (current_phase_days < 0) {
-            current_phase_days += phase_length;
+        // Frame numbers start at 1, so add 1 to the hours since year start
+        const frameNumber = hoursSinceYearStart + 1;
+        const formattedFrameNumber = String(frameNumber).padStart(4, '0');
+
+        // Base URL for 730x730 hourly frames from NASA SVS
+        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/frames/730x730_1x1_30p/";
+        const imageURL = `${imageBaseURL}moon.${formattedFrameNumber}.jpg`;
+
+        // Re-calculate illumination based on the midday date for consistency with image
+        let new_moon_date_utc = new Date(Date.UTC(2000, 0, 6, 18, 38, 0)); // Reference new moon (UTC)
+        let phase_length = 29.53058867; // Synodic month length in days
+
+        let days_since_new_moon_midday = (middayDate.getTime() - new_moon_date_utc.getTime()) / (1000 * 60 * 60 * 24);
+        let current_phase_days_midday = days_since_new_moon_midday % phase_length;
+
+        if (current_phase_days_midday < 0) {
+            current_phase_days_midday += phase_length;
         }
 
-        const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * current_phase_days / phase_length))) * 100); // Calculate illumination percentage
-
-        let phaseName;
-        let imageURL;
-
-        // The following image URLs are based on the NASA SVS link provided by the user:
-        // https://svs.gsfc.nasa.gov/5415/#media_group_376350
-
-        if (current_phase_days < 1.84566) {
-            phaseName = "New Moon";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_new.1933_print.jpg";
-        } else if (current_phase_days < 5.53699) {
-            phaseName = "Waxing Crescent";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waxing_crescent.2028_print.jpg";
-        } else if (current_phase_days < 9.22831) {
-            phaseName = "First Quarter";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_first_quarter.2091_print.jpg";
-        } else if (current_phase_days < 12.91963) {
-            phaseName = "Waxing Gibbous";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waxing_gibbous.2158_print.jpg";
-        } else if (current_phase_days < 16.61096) {
-            phaseName = "Full Moon";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_full.1571_print.jpg";
-        } else if (current_phase_days < 20.30228) {
-            phaseName = "Waning Gibbous";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waning_gibbous.2403_print.jpg";
-        } else if (current_phase_days < 23.99361) {
-            phaseName = "Last Quarter";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_third_quarter.1755_print.jpg";
-        } else if (current_phase_days < 27.68493) {
-            phaseName = "Waning Crescent";
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_waning_crescent.1810_print.jpg";
-        } else {
-            phaseName = "New Moon"; // Cycle back to New Moon
-            imageURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/phase_new.1933_print.jpg";
-        }
+        const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * current_phase_days_midday / phase_length))) * 100);
 
         return {
-            name: phaseName,
+            name: "Moon Phase", // Keeping it generic as requested
             imagePath: imageURL,
             percentage: illumination
         };
