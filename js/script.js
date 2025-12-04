@@ -15,12 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Frame numbers start at 1, so add 1 to the hours since year start
         const frameNumber = hoursSinceYearStart + 1;
-        const formattedFrameNumber = String(frameNumber).padStart(4, '0');
 
-        // Base URL for NASA SVS hourly moon images (730x730 resolution)
-        // Using the su_image path (a005416) which seems more reliable
-        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005416/frames/730x730_1x1_30p/";
-        const imageURL = `${imageBaseURL}moon.${formattedFrameNumber}.jpg`;
+        // Try multiple URL patterns for NASA SVS images
+        // Pattern 1: phase_full format (print resolution)
+        const imageBaseURL1 = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/";
+        const imageURL1 = `${imageBaseURL1}phase_full.${frameNumber}_print.jpg`;
+
+        // Pattern 2: hourly frames format (730x730 resolution)
+        const formattedFrameNumber = String(frameNumber).padStart(4, '0');
+        const imageBaseURL2 = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005416/frames/730x730_1x1_30p/";
+        const imageURL2 = `${imageBaseURL2}moon.${formattedFrameNumber}.jpg`;
+
+        // Pattern 3: Alternative path
+        const imageBaseURL3 = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/frames/730x730_1x1_30p/";
+        const imageURL3 = `${imageBaseURL3}moon.${formattedFrameNumber}.jpg`;
+
+        // Use the first URL pattern as primary, with fallbacks
+        const imageURL = imageURL1;
 
         // Re-calculate illumination based on the midday date for consistency with image
         let new_moon_date_utc = new Date(Date.UTC(2000, 0, 6, 18, 38, 0)); // Reference new moon (UTC)
@@ -36,8 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const illumination = Math.round((0.5 * (1 - Math.cos(2 * Math.PI * current_phase_days_midday / phase_length))) * 100);
 
         return {
-            name: "Moon Phase", // Keeping it generic as requested
+            name: "Moon Phase",
             imagePath: imageURL,
+            fallbackPaths: [imageURL2, imageURL3],
             percentage: illumination
         };
     }
@@ -138,15 +150,60 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const moonPhaseCard = document.createElement('div');
         moonPhaseCard.className = 'moon-phase-card';
-        moonPhaseCard.innerHTML = `
-            <div class="moon-phase-image-container">
-                <img src="${moonPhase.imagePath}" alt="Today's Moon Phase" class="moon-phase-image">
-            </div>
-            <div class="moon-phase-info">
-                <h3>${today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
-                <p class="moon-illumination">Illumination: ${moonPhase.percentage}%</p>
-            </div>
+        
+        const moonPhaseImageContainer = document.createElement('div');
+        moonPhaseImageContainer.className = 'moon-phase-image-container';
+        
+        const moonPhaseImage = document.createElement('img');
+        moonPhaseImage.alt = "Today's Moon Phase";
+        moonPhaseImage.className = 'moon-phase-image';
+        
+        // Function to try loading image with fallbacks
+        function loadMoonImage(urls, index = 0) {
+            if (index >= urls.length) {
+                console.error('All moon phase image URLs failed to load. URLs tried:', urls);
+                // Use a placeholder or generate a simple moon phase visualization
+                moonPhaseImageContainer.innerHTML = `
+                    <div style="color: #cbd5e1; text-align: center; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                        <div style="width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle at ${moonPhase.percentage > 50 ? '30%' : '70%'} 50%, #f0f0f0 ${moonPhase.percentage}%, transparent ${moonPhase.percentage}%), #1e293b; border: 2px solid #6366f1;"></div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">Moon Phase Visualization</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log(`Attempting to load moon image (${index + 1}/${urls.length}): ${urls[index]}`);
+            moonPhaseImage.src = urls[index];
+            moonPhaseImage.onerror = () => {
+                console.warn(`Failed to load moon image from: ${urls[index]}`);
+                // Try next fallback URL
+                if (index < urls.length - 1) {
+                    loadMoonImage(urls, index + 1);
+                } else {
+                    loadMoonImage(urls, urls.length); // Trigger error handling
+                }
+            };
+            moonPhaseImage.onload = () => {
+                console.log(`Successfully loaded moon image from: ${urls[index]}`);
+            };
+        }
+        
+        // Try loading with primary URL and fallbacks
+        const allUrls = [moonPhase.imagePath, ...(moonPhase.fallbackPaths || [])];
+        console.log('Moon phase data:', { percentage: moonPhase.percentage, urls: allUrls });
+        loadMoonImage(allUrls);
+        
+        moonPhaseImageContainer.appendChild(moonPhaseImage);
+        
+        const moonPhaseInfo = document.createElement('div');
+        moonPhaseInfo.className = 'moon-phase-info';
+        moonPhaseInfo.innerHTML = `
+            <h3>${today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+            <p class="moon-illumination">Illumination: ${moonPhase.percentage}%</p>
         `;
+        
+        moonPhaseCard.appendChild(moonPhaseImageContainer);
+        moonPhaseCard.appendChild(moonPhaseInfo);
         todayMoonPhaseContainer.appendChild(moonPhaseCard);
     }
 });
