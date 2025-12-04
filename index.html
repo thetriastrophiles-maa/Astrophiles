@@ -51,6 +51,34 @@
                 </div>
             </div>
         </section>
+
+        <section class="astronomy-calendar" id="astronomy-calendar-section">
+            <div class="container">
+                <h2>Astronomical Calendar <span id="current-month-year"></span></h2>
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h3 id="month-year-display"></h3>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Days of the week headers -->
+                    <div class="day-name">Sun</div>
+                    <div class="day-name">Mon</div>
+                    <div class="day-name">Tue</div>
+                    <div class="day-name">Wed</div>
+                    <div class="day-name">Thu</div>
+                    <div class="day-name">Fri</div>
+                    <div class="day-name">Sat</div>
+                    <!-- Calendar days will be loaded here by JavaScript -->
+                </div>
+                <div class="events-list" id="events-list">
+                    <h3>Events This Month</h3>
+                    <ul id="current-month-events">
+                        <!-- Events will be loaded here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
