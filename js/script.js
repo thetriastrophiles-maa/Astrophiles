@@ -77,23 +77,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle form submission for newsletter
-    const newsletterForm = document.querySelector('.signup-card');
+    const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
+        newsletterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
             const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            const submitBtn = newsletterForm.querySelector('.submit-btn');
 
-            if (name && email) {
-                successMessage.style.display = 'block';
-                setTimeout(() => {
-                    successMessage.style.display = 'none';
-                    document.getElementById('name').value = '';
-                    document.getElementById('email').value = '';
-                }, 5000);
-            } else {
-                alert('Please fill in all required fields');
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            if (!name || !email) {
+                errorMessage.textContent = 'Please fill in all required fields';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Disable submit button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Subscribing...';
+
+            try {
+                const response = await fetch('/.netlify/functions/newsletter-subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    successMessage.style.display = 'block';
+                    newsletterForm.reset();
+                    
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Subscribe to Newsletter';
+                    }, 3000);
+                } else {
+                    throw new Error(data.error || 'Failed to subscribe');
+                }
+            } catch (error) {
+                console.error('Newsletter subscription error:', error);
+                errorMessage.textContent = 'There was an error processing your subscription. Please try again later.';
+                errorMessage.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Subscribe to Newsletter';
             }
         });
     }

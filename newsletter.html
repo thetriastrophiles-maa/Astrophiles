@@ -29,43 +29,22 @@
     <main>
         <div class="signup-card">
             <h2 style="color: white; text-align: center; margin-bottom: 2rem;">Subscribe to Cosmic Updates</h2>
-            <form onsubmit="handleSubmit(event)"> <!-- Changed to use form and event listener -->
+            <form id="newsletter-form">
                 <div class="input-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="John Doe" required>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
                 </div>
                 <div class="input-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="you@example.com" required>
-                </div>
-                
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="weekly" checked>
-                        <label for="weekly">
-                            <div class="label-title">🌟 Weekly Digest</div>
-                            <div class="label-desc">Top stories, discoveries, and cosmic events every Monday</div>
-                        </label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="breaking" checked>
-                        <label for="breaking">
-                            <div class="label-title">⚡ Breaking News</div>
-                            <div class="label-desc">Instant alerts for major astronomical discoveries</div>
-                        </label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="events">
-                        <label for="events">
-                            <div class="label-title">🔭 Sky Events</div>
-                            <div class="label-desc">Reminders for meteor showers, eclipses, and viewing opportunities</div>
-                        </label>
-                    </div>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required>
                 </div>
 
-                <button type="submit" class="submit-btn">Join the Cosmic Community</button>
-                <div class="success-message" id="success-message">
-                    ✨ Welcome aboard! Check your email to confirm your subscription.
+                <button type="submit" class="submit-btn">Subscribe to Newsletter</button>
+                <div class="success-message" id="success-message" style="display: none;">
+                    ✨ Thank you for subscribing! Check your email for a confirmation message.
+                </div>
+                <div class="error-message" id="error-message" style="display: none; color: #ef4444; text-align: center; margin-top: 1rem;">
+                    There was an error processing your subscription. Please try again later.
                 </div>
             </form>
         </div>
@@ -76,8 +55,8 @@
             <p>&copy; 2025 Astrophile. All rights reserved. Exploring the cosmos together.</p>
             <div class="social-links">
                 <a href="https://www.instagram.com/astrophiles._?igsh=MWIxbWs3dWZkcW9tMA==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.facebook.com/share/17rPquBqPm/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/company/astrophiles/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 <a href="mailto:thetriastrophiles@gmail.com" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
