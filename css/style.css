@@ -89,6 +89,12 @@
             text-decoration: none;
         }
 
+        .logo-img {
+            max-height: 40px; /* Adjust as needed */
+            width: auto;
+            vertical-align: middle;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
