@@ -601,8 +601,10 @@
     font-size: 0.85rem;
     color: #cbd5e1;
     text-align: center;
+    text-align-last: center;
     margin-top: 0.2rem; /* Add some space below the percentage */
     line-height: 1.2;
+    padding: 0.2rem;
 }
 
 /* Responsive adjustments for calendar */

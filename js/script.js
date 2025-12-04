@@ -15,11 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Frame numbers start at 1, so add 1 to the hours since year start
         const frameNumber = hoursSinceYearStart + 1;
-        const formattedFrameNumber = String(frameNumber).padStart(4, '0');
 
-        // Base URL for 730x730 hourly frames from NASA SVS
-        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/frames/730x730_1x1_30p/";
-        const imageURL = `${imageBaseURL}moon.${formattedFrameNumber}.jpg`;
+        // Base URL for NASA SVS phase images (print resolution)
+        const imageBaseURL = "https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/";
+        const imageURL = `${imageBaseURL}phase_full.${frameNumber}_print.jpg`;
 
         // Re-calculate illumination based on the midday date for consistency with image
         let new_moon_date_utc = new Date(Date.UTC(2000, 0, 6, 18, 38, 0)); // Reference new moon (UTC)
@@ -192,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const moonPhaseContainer = document.createElement('div');
             moonPhaseContainer.className = 'moon-phase';
             moonPhaseContainer.innerHTML = `
-                <img src="${moonPhase.imagePath}" alt="Moon Phase" class="moon-image">
+                <img src="${moonPhase.imagePath}" class="moon-image">
                 <span class="moon-percentage">${moonPhase.percentage}%</span>
             `;
             dayElement.appendChild(moonPhaseContainer);
