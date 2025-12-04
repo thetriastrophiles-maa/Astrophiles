@@ -66,12 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 news.slice(0, 9).forEach(item => { // Limit to 9 news items
                     const newsCard = document.createElement('div');
                     newsCard.className = 'news-card';
+                    newsCard.onclick = () => window.open(item.link, '_blank'); // Make the whole card clickable
                     newsCard.innerHTML = `
                         <div class="news-meta">
                             <span class="news-source">${item.source}</span>
                             <span class="news-date">${new Date(item.pubDate).toLocaleDateString()}</span>
                         </div>
-                        <h3><a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a></h3>
+                        <h3>${item.title}</h3> <!-- Removed anchor tag from here -->
                         <p>${item.contentSnippet}</p>
                     `;
                     newsGrid.appendChild(newsCard);
