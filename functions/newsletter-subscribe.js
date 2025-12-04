@@ -1,27 +1,94 @@
 const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 
-// Helper function to store subscription in Google Sheets (optional)
+// Helper function to store subscription in Google Sheets
 async function storeInGoogleSheets(name, email) {
-    // This requires GOOGLE_SHEETS_API_KEY and GOOGLE_SHEET_ID environment variables
-    // For now, we'll just log it - you can implement Google Sheets API integration if needed
-    const subscriptionData = {
-        name,
-        email,
-        subscribedAt: new Date().toISOString(),
-    };
+    const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
+    const sheetId = process.env.GOOGLE_SHEET_ID;
     
-    // Log subscription for now (you can view these in Netlify function logs)
-    console.log('New subscription:', JSON.stringify(subscriptionData));
-    
-    // If you want to use Google Sheets, uncomment and configure:
-    /*
-    if (process.env.GOOGLE_SHEETS_API_KEY && process.env.GOOGLE_SHEET_ID) {
-        // Implement Google Sheets API call here
-        // See: https://developers.google.com/sheets/api
+    if (!apiKey || !sheetId) {
+        console.log('Google Sheets not configured, skipping storage');
+        return null;
     }
-    */
-    
-    return subscriptionData;
+
+    try {
+        const subscriptionData = {
+            name,
+            email,
+            subscribedAt: new Date().toISOString(),
+            date: new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            }),
+            time: new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            }),
+        };
+
+        // Initialize Google Sheets API with API key
+        const sheets = google.sheets({ version: 'v4', auth: apiKey });
+        
+        // Prepare the row data
+        const values = [[
+            subscriptionData.date,
+            subscriptionData.time,
+            subscriptionData.name,
+            subscriptionData.email,
+            subscriptionData.subscribedAt
+        ]];
+
+        // Check if sheet has headers, if not add them
+        try {
+            const headerCheck = await sheets.spreadsheets.values.get({
+                spreadsheetId: sheetId,
+                range: 'A1:E1',
+            });
+
+            // If no headers exist, add them
+            if (!headerCheck.data.values || headerCheck.data.values.length === 0) {
+                await sheets.spreadsheets.values.update({
+                    spreadsheetId: sheetId,
+                    range: 'A1:E1',
+                    valueInputOption: 'RAW',
+                    resource: {
+                        values: [['Date', 'Time', 'Name', 'Email', 'Timestamp']],
+                    },
+                });
+            }
+        } catch (headerError) {
+            // If range doesn't exist, create headers
+            console.log('Adding headers to sheet');
+            await sheets.spreadsheets.values.update({
+                spreadsheetId: sheetId,
+                range: 'A1:E1',
+                valueInputOption: 'RAW',
+                resource: {
+                    values: [['Date', 'Time', 'Name', 'Email', 'Timestamp']],
+                },
+            });
+        }
+
+        // Append the new subscription data
+        await sheets.spreadsheets.values.append({
+            spreadsheetId: sheetId,
+            range: 'A:E', // Append to columns A through E
+            valueInputOption: 'RAW',
+            insertDataOption: 'INSERT_ROWS',
+            resource: {
+                values: values,
+            },
+        });
+
+        console.log('Subscription stored in Google Sheets successfully');
+        return subscriptionData;
+    } catch (error) {
+        console.error('Error storing subscription in Google Sheets:', error.message);
+        // Don't fail the subscription if Google Sheets fails
+        // Just log the error and continue
+        return null;
+    }
 }
 
 // Helper function to send admin notification email
@@ -129,11 +196,13 @@ exports.handler = async function(event, context) {
 
         const fromEmail = process.env.FROM_EMAIL || process.env.SMTP_USER;
 
+        // Store subscription data in Google Sheets (always try, even if email fails)
+        const storedInSheets = await storeInGoogleSheets(name, email);
+
         // Check if email credentials are configured
         if (!smtpConfig.auth.user || !smtpConfig.auth.pass) {
             console.error('SMTP credentials not configured');
-            // Still return success to user, but log the error
-            // In production, you might want to store the subscription in a database
+            // Still return success if stored in sheets
             return {
                 statusCode: 200,
                 headers: {
@@ -142,21 +211,18 @@ exports.handler = async function(event, context) {
                 },
                 body: JSON.stringify({ 
                     success: true,
-                    message: 'Subscription received (email sending not configured)'
+                    message: storedInSheets 
+                        ? 'Subscription received and stored! (Email sending not configured)' 
+                        : 'Subscription received! (Email and storage not configured)'
                 }),
             };
         }
-
-        // Store subscription data
-        await storeInGoogleSheets(name, email);
 
         // Create transporter
         const transporter = nodemailer.createTransport(smtpConfig);
 
         // Send admin notification email (if configured)
-        if (smtpConfig.auth.user && smtpConfig.auth.pass) {
-            await sendAdminNotification(name, email, transporter, fromEmail);
-        }
+        await sendAdminNotification(name, email, transporter, fromEmail);
 
         // Email content
         const mailOptions = {
