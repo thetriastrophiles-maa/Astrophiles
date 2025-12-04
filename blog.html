@@ -4,39 +4,452 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astrophile - Blog</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --dark: #0f172a;
+            --darker: #020617;
+            --accent: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #020617, #0f172a);
+            color: #cbd5e1;
+            min-height: 100vh;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after,
+        nav a.current::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.current {
+            color: white;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .blog-grid {
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1), transparent);
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .blog-tag {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .blog-content h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .blog-content p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        .featured-article {
+            margin: 3rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .featured-content {
+            padding: 3rem;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-content h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .article-full {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-full h3 {
+            color: white;
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+        }
+
+        .article-full p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        footer {
+            background: rgba(2, 6, 23, 0.8);
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-content {
+                padding: 2rem;
+            }
+
+            .featured-content h2 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="stars" id="stars"></div>
+
     <header>
         <div class="container">
-            <h1><a href="index.html">Astrophile</a></h1>
-            <button class="menu-toggle" id="menu-toggle">
-                <span class="hamburger"></span>
-            </button>
-            <nav id="main-nav">
+            <a href="#" class="logo">Astrophile</a>
+            <nav>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="education.html">Education</a></li>
-                    <li><a href="blog.html" class="current">Blog</a></li>
-                    <li><a href="newsletter.html">Newsletter</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Education</a></li>
+                    <li><a href="#" class="current">Blog</a></li>
+                    <li><a href="#">Newsletter</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="container py-3">
-        <h1>Blog</h1>
-        <p>Read our latest articles on astronomy and space exploration.</p>
+    <main>
+        <div class="page-header">
+            <h1>Cosmic Chronicles</h1>
+            <p>Exploring the universe one article at a time</p>
+        </div>
+
+        <div class="container">
+            <article class="featured-article">
+                <div class="featured-content">
+                    <span class="featured-badge">⭐ Featured Article</span>
+                    <h2>The James Webb Space Telescope: Unveiling the Universe's First Galaxies</h2>
+                    <div class="blog-meta">
+                        <span>📅 December 1, 2025</span>
+                        <span>👤 Dr. Sarah Chen</span>
+                        <span>⏱️ 8 min read</span>
+                    </div>
+                    
+                    <div class="article-full">
+                        <p>The James Webb Space Telescope (JWST) has revolutionized our understanding of the early universe, peering back through time to witness the birth of the first galaxies. Since its launch, this remarkable observatory has exceeded all expectations, delivering breathtaking images and groundbreaking scientific discoveries that are rewriting astronomy textbooks.</p>
+
+                        <h3>A New Window to the Cosmos</h3>
+                        <p>Positioned approximately 1.5 million kilometers from Earth at the second Lagrange point (L2), JWST operates primarily in the infrared spectrum. This capability allows it to detect light from objects so distant that their visible light has been stretched into infrared wavelengths due to the expansion of the universe—a phenomenon known as redshift.</p>
+
+                        <p>The telescope's massive 6.5-meter primary mirror, composed of 18 gold-coated beryllium segments, collects light with unprecedented sensitivity. This engineering marvel, combined with its suite of advanced instruments, enables JWST to observe galaxies that formed just a few hundred million years after the Big Bang.</p>
+
+                        <div class="highlight-box">
+                            <strong>Did You Know?</strong> JWST can detect heat signatures equivalent to a bumblebee at the distance of the Moon. This incredible sensitivity allows astronomers to study the faintest and most distant objects in the universe.
+                        </div>
+
+                        <h3>Discovering Ancient Galaxies</h3>
+                        <p>One of JWST's most significant achievements has been the identification of galaxies that existed when the universe was less than 5% of its current age. These ancient structures appear more massive and mature than theoretical models predicted, challenging our understanding of galaxy formation and evolution.</p>
+
+                        <p>The telescope has revealed that early galaxies were extraordinarily diverse, exhibiting a wide range of shapes, sizes, and star formation rates. Some of these primordial galaxies are surprisingly compact and dense, while others are already showing signs of the spiral and elliptical structures we observe in the local universe today.</p>
+
+                        <h3>Implications for Cosmology</h3>
+                        <p>These discoveries are forcing astronomers to reconsider long-held theories about how galaxies form and grow. The presence of such massive galaxies so early in cosmic history suggests that galaxy assembly was a far more rapid and efficient process than previously thought.</p>
+
+                        <p>Moreover, JWST's observations are providing crucial insights into the epoch of reionization—a pivotal period when the first stars and galaxies ionized the neutral hydrogen that pervaded the early universe. Understanding this transformation is essential to comprehending how the universe evolved from its simple, uniform state after the Big Bang to the complex cosmic web of galaxies we see today.</p>
+
+                        <h3>Looking Forward</h3>
+                        <p>As JWST continues its mission, we can anticipate even more remarkable discoveries. The telescope is already scheduled to observe potential planets around distant stars, analyze the atmospheres of exoplanets for signs of habitability, and probe deeper into the cosmic past than ever before.</p>
+
+                        <p>The data flowing from JWST is not just expanding our knowledge—it's inspiring a new generation of astronomers and reminding us of the profound questions that drive scientific exploration: Where do we come from? How did the universe begin? And are we alone?</p>
+
+                        <div class="highlight-box">
+                            <strong>What's Next?</strong> Scientists are planning observations that will search for the very first stars—massive, metal-free objects that existed before any galaxies formed. These Population III stars have never been directly observed, but JWST may finally reveal them.
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">🌑</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-tag">Planetary Science</span>
+                            <span>Nov 28, 2025</span>
+                        </div>
+                        <h3>The Mystery of Dark Matter Halos</h3>
+                        <p>New simulations reveal how dark matter shapes the cosmic web and influences galaxy formation across billions of years.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">☄️</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-tag">Asteroids</span>
+                            <span>Nov 25, 2025</span>
+                        </div>
+                        <h3>Protecting Earth from Asteroid Impacts</h3>
+                        <p>How planetary defense missions are preparing us for potential near-Earth object threats in the coming decades.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">🪐</div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-tag">Exoplanets</span>
+                            <span>Nov 22, 2025</span>
+                        </div>
+                        <h3>Searching for Life Beyond Earth</h3>
+                        <p>The latest techniques astronomers use to detect biosignatures in the atmospheres of distant exoplanets.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Astrophile. All rights reserved.</p>
+            <p>&copy; 2025 Astrophile. All rights reserved. Exploring the cosmos together.</p>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
 </body>
 </html>
