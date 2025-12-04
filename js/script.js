@@ -18,15 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Define phases based on days since new moon
-        if (current_phase_days < 1.84566) return "New Moon";
-        if (current_phase_days < 5.53699) return "Waxing Crescent";
-        if (current_phase_days < 9.22831) return "First Quarter";
-        if (current_phase_days < 12.91963) return "Waxing Gibbous";
-        if (current_phase_days < 16.61096) return "Full Moon";
-        if (current_phase_days < 20.30228) return "Waning Gibbous";
-        if (current_phase_days < 23.99361) return "Last Quarter";
-        if (current_phase_days < 27.68493) return "Waning Crescent";
-        return "New Moon"; // Cycle back to New Moon
+        if (current_phase_days < 1.84566) return "🌑 New Moon";
+        if (current_phase_days < 5.53699) return "🌒 Waxing Crescent";
+        if (current_phase_days < 9.22831) return "🌓 First Quarter";
+        if (current_phase_days < 12.91963) return "🌔 Waxing Gibbous";
+        if (current_phase_days < 16.61096) return "🌕 Full Moon";
+        if (current_phase_days < 20.30228) return "🌖 Waning Gibbous";
+        if (current_phase_days < 23.99361) return "🌗 Last Quarter";
+        if (current_phase_days < 27.68493) return "🌘 Waning Crescent";
+        return "🌑 New Moon"; // Cycle back to New Moon
     }
 
     const menuToggle = document.getElementById('menu-toggle');

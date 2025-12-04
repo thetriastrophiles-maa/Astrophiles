@@ -469,6 +469,16 @@
     color: #ef4444; /* Red color for errors */
 }
 
+/* CTA Buttons at Bottom */
+.cta-buttons-bottom {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 4rem 2rem;
+    margin-top: -4rem; /* Adjust to pull it closer to the sections above */
+}
+
 /* Astronomical Calendar */
 .astronomy-calendar {
     padding: 6rem 2rem;
@@ -556,8 +566,8 @@
 }
 
 .moon-phase {
-    font-size: 0.8rem;
-    color: #94a3b8;
+    font-size: 1.2rem; /* Larger font size for emojis */
+    color: #cbd5e1;
     text-align: center;
     margin-top: 0.5rem;
 }
