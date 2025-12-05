@@ -1394,3 +1394,366 @@
         font-size: 3rem;
     }
 }
+
+/* About Page Styles */
+.about-hero {
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(236, 72, 153, 0.15), transparent 50%);
+    pointer-events: none;
+}
+
+.about-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.about-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.about-hero-content h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-content-section {
+    padding: 4rem 2rem;
+}
+
+.about-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(99, 102, 241, 0.1);
+}
+
+.about-text {
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.about-text p {
+    margin-bottom: 1.5rem;
+    color: #cbd5e1;
+}
+
+.about-quote {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    position: relative;
+    text-align: center;
+}
+
+.about-quote i.fa-quote-left {
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-size: 2rem;
+    color: var(--primary);
+    opacity: 0.3;
+}
+
+.about-quote i.fa-quote-right {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    color: var(--primary);
+    opacity: 0.3;
+}
+
+.about-quote p {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--primary);
+    font-weight: 500;
+    margin: 0;
+    padding: 0 2rem;
+}
+
+/* Coming Soon Page Styles */
+.coming-soon-hero {
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    position: relative;
+    overflow: hidden;
+}
+
+.coming-soon-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(236, 72, 153, 0.15), transparent 50%);
+    pointer-events: none;
+}
+
+.coming-soon-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.coming-soon-icon {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.coming-soon-content h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.coming-soon-subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.coming-soon-section {
+    padding: 4rem 2rem;
+}
+
+.coming-soon-card {
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(99, 102, 241, 0.1);
+    text-align: center;
+}
+
+.coming-soon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+    }
+}
+
+.coming-soon-badge i {
+    font-size: 0.9rem;
+}
+
+.coming-soon-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.coming-soon-card p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+}
+
+.coming-soon-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 16px;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: rgba(99, 102, 241, 0.2);
+    transform: translateY(-5px);
+}
+
+.feature-item i {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.feature-item span {
+    color: #cbd5e1;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Responsive Design for About and Coming Soon */
+@media (max-width: 768px) {
+    .about-hero,
+    .coming-soon-hero {
+        padding: 4rem 1.5rem 3rem;
+    }
+
+    .about-hero-content h1,
+    .coming-soon-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .about-subtitle,
+    .coming-soon-subtitle {
+        font-size: 1rem;
+    }
+
+    .about-icon,
+    .coming-soon-icon {
+        font-size: 3rem;
+    }
+
+    .about-content-section,
+    .coming-soon-section {
+        padding: 3rem 1rem;
+    }
+
+    .about-card,
+    .coming-soon-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .about-quote p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+
+    .coming-soon-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .coming-soon-features {
+        gap: 1rem;
+    }
+
+    .feature-item {
+        min-width: 120px;
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-hero,
+    .coming-soon-hero {
+        padding: 3rem 1rem 2rem;
+    }
+
+    .about-hero-content h1,
+    .coming-soon-content h1 {
+        font-size: 2rem;
+    }
+
+    .about-card,
+    .coming-soon-card {
+        padding: 1.5rem 1rem;
+        border-radius: 16px;
+    }
+
+    .about-quote {
+        padding: 1.5rem 1rem;
+    }
+
+    .about-quote i.fa-quote-left,
+    .about-quote i.fa-quote-right {
+        display: none;
+    }
+
+    .coming-soon-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .coming-soon-features {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .feature-item {
+        min-width: auto;
+    }
+}
