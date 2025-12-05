@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+    <div class="space-bg"></div>
     <div class="stars" id="stars"></div>
 
     <header>
         <div class="container">
             <a href="index.html" class="logo"><img src="images/logo.png" alt="Astrophile Logo" class="logo-img"></a>
-            <nav>
+            <button class="menu-toggle" id="menu-toggle">
+                <span class="hamburger"></span>
+            </button>
+            <nav id="main-nav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
@@ -27,21 +31,41 @@
     </header>
 
     <main>
-        <div class="page-header">
-            <h1>Cosmic Chronicles</h1>
-            <p>Exploring the universe one article at a time</p>
-        </div>
-
-        <div class="container">
-            <article class="featured-article">
-                <div class="featured-content">
-                    <span class="featured-badge">⭐ Featured Article</span>
-                    <h2>The James Webb Space Telescope: Unveiling the Universe's First Galaxies</h2>
-                    <div class="blog-meta">
-                        <span>📅 December 1, 2025</span>
-                        <span>👤 Dr. Sarah Chen</span>
-                        <span>⏱️ 8 min read</span>
+        <section class="blog-hero">
+            <div class="container">
+                <div class="blog-hero-content">
+                    <div class="blog-icon">
+                        <i class="fas fa-book-open"></i>
                     </div>
+                    <h1>Cosmic Chronicles</h1>
+                    <p class="blog-subtitle">Exploring the universe one article at a time. Dive into fascinating discoveries, cutting-edge research, and cosmic wonders.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-content-section">
+            <div class="container">
+                <article class="featured-article">
+                    <div class="featured-badge">
+                        <i class="fas fa-star"></i>
+                        <span>Featured Article</span>
+                    </div>
+                    <div class="featured-content">
+                        <h2>The James Webb Space Telescope: Unveiling the Universe's First Galaxies</h2>
+                        <div class="blog-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                December 1, 2025
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-user"></i>
+                                Dr. Sarah Chen
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                8 min read
+                            </span>
+                        </div>
                     
                     <div class="article-full">
                         <p>The James Webb Space Telescope (JWST) has revolutionized our understanding of the early universe, peering back through time to witness the birth of the first galaxies. Since its launch, this remarkable observatory has exceeded all expectations, delivering breathtaking images and groundbreaking scientific discoveries that are rewriting astronomy textbooks.</p>
@@ -52,7 +76,13 @@
                         <p>The telescope's massive 6.5-meter primary mirror, composed of 18 gold-coated beryllium segments, collects light with unprecedented sensitivity. This engineering marvel, combined with its suite of advanced instruments, enables JWST to observe galaxies that formed just a few hundred million years after the Big Bang.</p>
 
                         <div class="highlight-box">
-                            <strong>Did You Know?</strong> JWST can detect heat signatures equivalent to a bumblebee at the distance of the Moon. This incredible sensitivity allows astronomers to study the faintest and most distant objects in the universe.
+                            <div class="highlight-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <strong>Did You Know?</strong>
+                                <p>JWST can detect heat signatures equivalent to a bumblebee at the distance of the Moon. This incredible sensitivity allows astronomers to study the faintest and most distant objects in the universe.</p>
+                            </div>
                         </div>
 
                         <h3>Discovering Ancient Galaxies</h3>
@@ -71,53 +101,98 @@
                         <p>The data flowing from JWST is not just expanding our knowledge—it's inspiring a new generation of astronomers and reminding us of the profound questions that drive scientific exploration: Where do we come from? How did the universe begin? And are we alone?</p>
 
                         <div class="highlight-box">
-                            <strong>What's Next?</strong> Scientists are planning observations that will search for the very first stars—massive, metal-free objects that existed before any galaxies formed. These Population III stars have never been directly observed, but JWST may finally reveal them.
+                            <div class="highlight-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <strong>What's Next?</strong>
+                                <p>Scientists are planning observations that will search for the very first stars—massive, metal-free objects that existed before any galaxies formed. These Population III stars have never been directly observed, but JWST may finally reveal them.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <div class="blog-grid">
-                <div class="blog-card">
-                    <div class="blog-image">🌑</div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Planetary Science</span>
-                            <span>Nov 28, 2025</span>
-                        </div>
-                        <h3>The Mystery of Dark Matter Halos</h3>
-                        <p>New simulations reveal how dark matter shapes the cosmic web and influences galaxy formation across billions of years.</p>
-                        <a href="blog-posts/the-mystery-of-dark-matter-halos.html" class="read-more">Read More →</a>
-                    </div>
+                <div class="more-articles-header">
+                    <h2>More Articles</h2>
+                    <p>Explore more cosmic discoveries and insights</p>
                 </div>
 
-                <div class="blog-card">
-                    <div class="blog-image">☄️</div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Asteroids</span>
-                            <span>Nov 25, 2025</span>
+                <div class="blog-grid">
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <i class="fas fa-moon"></i>
                         </div>
-                        <h3>Protecting Earth from Asteroid Impacts</h3>
-                        <p>How planetary defense missions are preparing us for potential near-Earth object threats in the coming decades.</p>
-                        <a href="blog-posts/protecting-earth-from-asteroid-impacts.html" class="read-more">Read More →</a>
-                    </div>
-                </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-tag">
+                                    <i class="fas fa-tag"></i>
+                                    Planetary Science
+                                </span>
+                                <span class="blog-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Nov 28, 2025
+                                </span>
+                            </div>
+                            <h3>The Mystery of Dark Matter Halos</h3>
+                            <p>New simulations reveal how dark matter shapes the cosmic web and influences galaxy formation across billions of years.</p>
+                            <a href="blog-posts/the-mystery-of-dark-matter-halos.html" class="read-more">
+                                Read More
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
 
-                <div class="blog-card">
-                    <div class="blog-image">🪐</div>
-                    <div class="blog-content">
-                        <div class="blog-meta">
-                            <span class="blog-tag">Exoplanets</span>
-                            <span>Nov 22, 2025</span>
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <i class="fas fa-meteor"></i>
                         </div>
-                        <h3>Searching for Life Beyond Earth</h3>
-                        <p>The latest techniques astronomers use to detect biosignatures in the atmospheres of distant exoplanets.</p>
-                        <a href="blog-posts/searching-for-life-beyond-earth.html" class="read-more">Read More →</a>
-                    </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-tag">
+                                    <i class="fas fa-tag"></i>
+                                    Asteroids
+                                </span>
+                                <span class="blog-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Nov 25, 2025
+                                </span>
+                            </div>
+                            <h3>Protecting Earth from Asteroid Impacts</h3>
+                            <p>How planetary defense missions are preparing us for potential near-Earth object threats in the coming decades.</p>
+                            <a href="blog-posts/protecting-earth-from-asteroid-impacts.html" class="read-more">
+                                Read More
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <article class="blog-card">
+                        <div class="blog-image">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span class="blog-tag">
+                                    <i class="fas fa-tag"></i>
+                                    Exoplanets
+                                </span>
+                                <span class="blog-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Nov 22, 2025
+                                </span>
+                            </div>
+                            <h3>Searching for Life Beyond Earth</h3>
+                            <p>The latest techniques astronomers use to detect biosignatures in the atmospheres of distant exoplanets.</p>
+                            <a href="blog-posts/searching-for-life-beyond-earth.html" class="read-more">
+                                Read More
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <footer>
